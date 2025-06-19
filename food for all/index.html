@@ -1,0 +1,1946 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FOOD FOR ALL</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        header {
+            background: linear-gradient(135deg, #2E7D32, #4CAF50);
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .logo i {
+            font-size: 1.5rem;
+            color: #FFD700;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 1.5rem;
+        }
+
+        .nav-links a {
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            background-color: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        .login-btn, .logout-btn {
+            background-color: #1B5E20;
+            padding: 0.5rem 1.2rem;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .login-btn:hover, .logout-btn:hover {
+            background-color: #0D3B13;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        .burger {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        .page-container {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .page-container.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message {
+            padding: 1rem;
+            margin: 1rem auto;
+            max-width: 800px;
+            border-radius: 8px;
+            text-align: center;
+            display: none;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .message.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        #home-page .hero {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            padding: 0 2rem;
+        }
+
+        #home-page .hero-content h2 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        #home-page .hero-content p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            min-width: 200px;
+        }
+
+        .btn-primary:hover {
+            background-color: #388E3C;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: white;
+            border: 2px solid white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            min-width: 200px;
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(255,255,255,0.15);
+            transform: translateY(-3px);
+        }
+
+        #home-page .stats-section {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            padding: 4rem 2rem;
+            background-color: #fff;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #4CAF50, #2E7D32);
+            padding: 2.5rem 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            width: 220px;
+            text-align: center;
+            color: white;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .stat-card i {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            color: #FFD700;
+        }
+
+        .stat-card h3 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .auth-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 80vh;
+            padding: 2rem;
+            background: url('https://images.unsplash.com/photo-1490818387583-1baba5e638af?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center;
+            background-size: cover;
+        }
+
+        .auth-card {
+            background-color: rgba(255,255,255,0.95);
+            padding: 3rem;
+            border-radius: 15px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 500px;
+            backdrop-filter: blur(5px);
+        }
+
+        .auth-card h2 {
+            margin-bottom: 1.5rem;
+            text-align: center;
+            color: #4CAF50;
+            font-size: 2rem;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .auth-card h2:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: #4CAF50;
+            border-radius: 2px;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #444;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.9rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            border-color: #4CAF50;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .radio-group label {
+            font-weight: normal;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .auth-link {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 1.05rem;
+        }
+
+        .auth-link a {
+            color: #4CAF50;
+            font-weight: 600;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .auth-link a:after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #4CAF50;
+            transition: width 0.3s;
+        }
+
+        .auth-link a:hover:after {
+            width: 100%;
+        }
+
+        .form-container {
+            max-width: 900px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+
+        .form-card {
+            background-color: white;
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .form-card h2 {
+            text-align: center;
+            color: #4CAF50;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .form-card h2:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: #4CAF50;
+            border-radius: 2px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #444;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 0.9rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: #4CAF50;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .food-type-options {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .food-type-option {
+            flex: 1;
+            min-width: 120px;
+            text-align: center;
+            padding: 1.5rem 1rem;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .food-type-option:hover {
+            border-color: #4CAF50;
+            background-color: rgba(76, 175, 80, 0.05);
+        }
+
+        .food-type-option.selected {
+            border-color: #4CAF50;
+            background-color: rgba(76, 175, 80, 0.1);
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .food-type-option i {
+            font-size: 2rem;
+            color: #4CAF50;
+            margin-bottom: 0.8rem;
+        }
+
+        .food-type-option p {
+            font-weight: 500;
+            color: #555;
+        }
+
+        .two-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        #organizations-page {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: #4CAF50;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 15px;
+        }
+
+        .section-title h2:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: #4CAF50;
+            border-radius: 2px;
+        }
+
+        .organizations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .organization-card {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .organization-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .org-image {
+            height: 220px;
+            overflow: hidden;
+        }
+
+        .org-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .organization-card:hover .org-image img {
+            transform: scale(1.1);
+        }
+
+        .org-details {
+            padding: 1.8rem;
+        }
+
+        .org-details h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.8rem;
+            color: #4CAF50;
+        }
+
+        .org-details p {
+            margin-bottom: 0.8rem;
+            color: #666;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .org-details p i {
+            color: #4CAF50;
+            min-width: 20px;
+        }
+
+        .org-details .address {
+            margin-top: 1rem;
+            font-style: italic;
+            background: #f9f9f9;
+            padding: 0.8rem;
+            border-radius: 8px;
+            border-left: 3px solid #4CAF50;
+        }
+
+        #about-page {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            margin-bottom: 4rem;
+        }
+
+        .about-text h2 {
+            font-size: 2.5rem;
+            color: #4CAF50;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .about-text h2:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background: #4CAF50;
+            border-radius: 2px;
+        }
+
+        .about-text p {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+            color: #555;
+        }
+
+        .about-image {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+            height: 400px;
+        }
+
+        .about-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .mission-section {
+            background: linear-gradient(rgba(76, 175, 80, 0.9), rgba(46, 125, 50, 0.9)), url('https://images.unsplash.com/photo-1542838132-92c53300491e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            padding: 4rem 2rem;
+            border-radius: 15px;
+            color: white;
+            margin: 4rem 0;
+            text-align: center;
+        }
+
+        .mission-section h3 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .mission-section p {
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .impact-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+
+        .impact-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .impact-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .impact-card i {
+            font-size: 3rem;
+            color: #4CAF50;
+            margin-bottom: 1.5rem;
+        }
+
+        .impact-card h4 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .impact-card p {
+            color: #666;
+        }
+
+        #contact-page {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 4rem;
+        }
+
+        .contact-info {
+            background: linear-gradient(135deg, #4CAF50, #2E7D32);
+            padding: 2.5rem;
+            border-radius: 15px;
+            color: white;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .contact-info h3 {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .contact-info h3:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: white;
+            border-radius: 2px;
+        }
+
+        .contact-card {
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 15px;
+            align-items: flex-start;
+        }
+
+        .contact-card i {
+            font-size: 1.5rem;
+            min-width: 30px;
+            color: #FFD700;
+        }
+
+        .contact-card div h4 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-card div p {
+            line-height: 1.6;
+        }
+
+        .contact-map {
+            margin-top: 3rem;
+            border-radius: 15px;
+            overflow: hidden;
+            height: 300px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .contact-map iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .team-section {
+            margin-top: 5rem;
+        }
+
+        .team-section h3 {
+            text-align: center;
+            font-size: 2rem;
+            color: #4CAF50;
+            margin-bottom: 3rem;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .team-section h3:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: #4CAF50;
+            border-radius: 2px;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .team-member {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .team-member:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .member-image {
+            height: 250px;
+            overflow: hidden;
+            background-color: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .member-image i {
+            font-size: 5rem;
+            color: #4CAF50;
+        }
+
+        .member-info {
+            padding: 1.5rem;
+        }
+
+        .member-info h4 {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .member-info p {
+            color: #4CAF50;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .social-links a {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: #4CAF50;
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        footer {
+            background: linear-gradient(135deg, #2E7D32, #1B5E20);
+            color: white;
+            padding: 3rem 2rem 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-column h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h3:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: #FFD700;
+            border-radius: 2px;
+        }
+
+        .footer-column p {
+            margin-bottom: 1.2rem;
+            line-height: 1.7;
+            opacity: 0.9;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            opacity: 0.9;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+            transform: translateX(5px);
+            color: #FFD700;
+        }
+
+        .footer-links i {
+            color: #FFD700;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 15px;
+            margin-top: 1.5rem;
+        }
+
+        .footer-social a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .footer-social a:hover {
+            background: #FFD700;
+            color: #1B5E20;
+            transform: translateY(-5px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            max-width: 1200px;
+            margin: 0 auto;
+            opacity: 0.8;
+        }
+
+        .validation-hint {
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 0.25rem;
+            display: block;
+        }
+
+        @media (max-width: 992px) {
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .about-image {
+                order: -1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                background: linear-gradient(135deg, #2E7D32, #1B5E20);
+                padding: 1.5rem;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links li {
+                margin: 0.8rem 0;
+            }
+
+            .burger {
+                display: block;
+            }
+
+            .two-columns {
+                grid-template-columns: 1fr;
+            }
+            
+            .stat-card {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .hero-content h2 {
+                font-size: 2.2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .auth-card {
+                padding: 2rem 1.5rem;
+            }
+            
+            .form-card {
+                padding: 1.5rem;
+            }
+            
+            .hero-content h2 {
+                font-size: 1.8rem;
+            }
+            
+            .hero-content p {
+                font-size: 1.1rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo">
+                <i class="fas fa-utensils"></i>
+                <h1>Food For All</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#" onclick="showPage('home-page')">Home</a></li>
+                <li><a href="#" onclick="showPage('organizations-page')">Organizations</a></li>
+                <li><a href="#" onclick="showPage('feedback-page')">Feedback</a></li>
+                <li><a href="#" onclick="showPage('about-page')">About</a></li>
+                <li><a href="#" onclick="showPage('contact-page')">Contact</a></li>
+                <li><a href="#" onclick="logout()" class="logout-btn" id="logout-btn" style="display: none;">Logout</a></li>
+                <li><a href="#" onclick="showPage('login-page')" class="login-btn" id="login-btn">Login</a></li>
+            </ul>
+            <div class="burger" onclick="toggleMenu()">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Message Container -->
+    <div id="message-container" class="message" style="display: none;"></div>
+
+    <!-- Login Page (shown first) -->
+    <div id="login-page" class="page-container active">
+        <main class="auth-container">
+            <div class="auth-card">
+                <h2>Login to Food Donate</h2>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="login-email">Email Address</label>
+                        <input type="email" id="login-email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Password (6 characters only)</label>
+                        <input type="password" id="login-password" name="password" minlength="6" maxlength="6" required>
+                    </div>
+                    <button type="submit" class="btn-primary">Login</button>
+                </form>
+                <p class="auth-link">Don't have an account? <a href="#" onclick="showPage('signup-page')">Register</a></p>
+            </div>
+        </main>
+    </div>
+
+    <!-- Signup Page -->
+    <div id="signup-page" class="page-container">
+        <main class="auth-container">
+            <div class="auth-card">
+                <h2>Create your account</h2>
+                <form id="signupForm">
+                    <div class="form-group">
+                        <label for="signup-username">Username (letters only)</label>
+                        <input type="text" id="signup-username" name="username" pattern="[A-Za-z ]+" title="Username should contain only letters" required>
+                        <span class="validation-hint">Only letters and spaces allowed</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-email">Email</label>
+                        <input type="email" id="signup-email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-password">Password (6 characters only)</label>
+                        <input type="password" id="signup-password" name="password" minlength="6" maxlength="6" required>
+                    </div>
+                    <button type="submit" class="btn-primary">Register</button>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <!-- Home Page -->
+    <div id="home-page" class="page-container">
+        <section class="hero">
+            <div class="hero-content">
+                <h2>If you can't feed a hundred people,then just feed one </h2>
+                <p>Join us in reducing food waste and helping those in need. Together we can make a difference.</p>
+                <div class="cta-buttons">
+                    <a href="#" onclick="showPage('donate-page')" class="btn-primary">Donate Food</a>
+                    <a href="#" onclick="showPage('request-page')" class="btn-secondary">Request Food</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="stats-section">
+            <div class="stat-card">
+                <i class="fas fa-utensils"></i>
+                <h3>1200+</h3>
+                <p>Meals Donated</p>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-users"></i>
+                <h3>500+</h3>
+                <p>Active Donors</p>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-hand-holding-heart"></i>
+                <h3>300+</h3>
+                <p>Organizations Served</p>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-leaf"></i>
+                <h3>5 Tons+</h3>
+                <p>Food Waste Reduced</p>
+            </div>
+        </section>
+    </div>
+
+    <!-- Donate Page -->
+    <div id="donate-page" class="page-container">
+        <div class="form-container">
+            <div class="form-card">
+                <h2>Food Donation Form</h2>
+                <form id="donationForm" class="donation-form">
+                    <div class="form-group">
+                        <label for="donor-name">Your Name *</label>
+                        <input type="text" id="donor-name" placeholder="Enter your full name" 
+                               pattern="[A-Za-z ]+" 
+                               title="Please enter only letters and spaces (e.g. John Smith)" required>
+                        <span class="validation-hint">Only letters and spaces allowed (e.g. John Smith)</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="donor-type">Donor Type *</label>
+                        <select id="donor-type" required>
+                            <option value="">Select donor type</option>
+                            <option value="individual">Individual</option>
+                            <option value="restaurant">Restaurant/Caterer</option>
+                            <option value="hotel">Hotel</option>
+                            <option value="event">Event Organizer</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="two-columns">
+                        <div class="form-group">
+                            <label for="donor-phone">Phone Number *</label>
+                            <input type="tel" id="donor-phone" placeholder="9876543210" pattern="[0-9]{10}" title="Please enter a 10-digit phone number" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="donor-email">Email Address *</label>
+                            <input type="email" id="donor-email" placeholder="your@email.com" required readonly>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="pickup-address">Pickup Address *</label>
+                        <textarea id="pickup-address" placeholder="Enter complete pickup address with landmarks" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Food Type *</label>
+                        <div class="food-type-options">
+                            <div class="food-type-option" onclick="selectFoodType(this, 'raw')">
+                                <i class="fas fa-carrot"></i>
+                                <p>Raw Food</p>
+                            </div>
+                            <div class="food-type-option" onclick="selectFoodType(this, 'cooked')">
+                                <i class="fas fa-utensils"></i>
+                                <p>Cooked Food</p>
+                            </div>
+                            <div class="food-type-option" onclick="selectFoodType(this, 'packed')">
+                                <i class="fas fa-box"></i>
+                                <p>Packed Food</p>
+                            </div>
+                        </div>
+                        <input type="hidden" id="food-type" name="food-type" required>
+                    </div>
+                    
+                    <div class="two-columns">
+                        <div class="form-group">
+                            <label for="quantity">Quantity (servings) *</label>
+                            <input type="number" id="quantity" placeholder="Number of people it can serve" min="1" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="expiry">Expiry Date & Time *</label>
+                            <input type="datetime-local" id="expiry" required>
+                        </div>
+                    </div>
+                    
+                    <div class="two-columns">
+                        <div class="form-group">
+                            <label for="pickup-time-start">Pickup Start Time *</label>
+                            <input type="time" id="pickup-time-start" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="pickup-time-end">Pickup End Time *</label>
+                            <input type="time" id="pickup-time-end" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="notes">Additional Notes</label>
+                        <textarea id="notes" placeholder="Any special instructions or additional information about the food"></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary">Submit Donation</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Request Page -->
+    <div id="request-page" class="page-container">
+        <div class="form-container">
+            <div class="form-card">
+                <h2>Organization Registration</h2>
+                <form id="requestForm" class="request-form">
+                    <div class="form-group">
+                        <label for="org-name">Organization Name *</label>
+                        <input type="text" id="org-name" 
+                               pattern="[A-Za-z ]+" 
+                               title="Please enter a valid organization name (letters and spaces only)" required>
+                        <span class="validation-hint">Only letters and spaces allowed</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="org-type">Organization Type *</label>
+                        <select id="org-type" required>
+                            <option value="">Select organization type</option>
+                            <option value="orphanage">Orphanage</option>
+                            <option value="oldage">Old Age Home</option>
+                            <option value="ngo">NGO</option>
+                            <option value="shelter">Shelter Home</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="two-columns">
+                        <div class="form-group">
+                            <label for="contact-person">Contact Person *</label>
+                            <input type="text" id="contact-person" 
+                                   pattern="[A-Za-z ]+" 
+                                   title="Please enter only letters and spaces" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="org-phone">Phone Number *</label>
+                            <input type="tel" id="org-phone" pattern="[0-9]{10}" title="Please enter a 10-digit phone number" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="org-email">Email Address *</label>
+                        <input type="email" id="org-email" required readonly>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="org-address">Complete Address *</label>
+                        <textarea id="org-address" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="reg-number">Registration Number</label>
+                        <input type="text" id="reg-number" placeholder="e.g., 12A/2019/NGO">
+                    </div>
+                    
+                    <div class="two-columns">
+                        <div class="form-group">
+                            <label for="people-served">Number of People Served *</label>
+                            <input type="number" id="people-served" min="1" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="delivery-time-start">Delivery Start Time *</label>
+                            <input type="time" id="delivery-time-start" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="delivery-time-end">Delivery End Time *</label>
+                            <input type="time" id="delivery-time-end" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="special-req">Special Requirements</label>
+                        <textarea id="special-req" placeholder="Any specific dietary requirements, food preferences, or other special needs..."></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary">Submit Registration</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Organizations Page -->
+    <div id="organizations-page" class="page-container">
+        <div class="section-title">
+            <h2>Our Partner Organizations</h2>
+        </div>
+        <div class="organizations-grid">
+            <div class="organization-card">
+                <div class="org-image">
+                    <img src="yuva.jpg" alt="Shanti Orphanage">
+                </div>
+                <div class="org-details">
+                    <h3>YUVA GENERATION</h3>
+                    <p><i class="fas fa-phone"></i> +91 9876543210</p>
+                    <p><i class="fas fa-envelope"></i> yuva@gmail.com</p>
+                    <p class="address"><i class="fas fa-map-marker-alt"></i> marripalem, Vizag, Andhra Pradesh 530018</p>
+                </div>
+            </div>
+            
+            <div class="organization-card">
+                <div class="org-image">
+                    <img src="manasu.jpg" alt="Vizag Food Bank">
+                </div>
+                <div class="org-details">
+                    <h3>manasu orphanage</h3>
+                    <p><i class="fas fa-phone"></i> +91 9123456789</p>
+                    <p><i class="fas fa-envelope"></i> manasu@gmail.com</p>
+                    <p class="address"><i class="fas fa-map-marker-alt"></i>prahaladhapuram,simhachalem, Vizag, AP 530028</p>
+                </div>
+            </div>
+            
+            <div class="organization-card">
+                <div class="org-image">
+                    <img src="a.jpg" alt="Seva Foundation">
+                </div>
+                <div class="org-details">
+                    <h3>aradhana children home</h3>
+                    <p><i class="fas fa-phone"></i> +91 8765432109</p>
+                    <p><i class="fas fa-envelope"></i>aradhana@gmail.com</p>
+                    <p class="address"><i class="fas fa-map-marker-alt"></i> 78 Jagadamba Center, Vizag, AP 530003</p>
+                </div>
+            </div>
+            
+            <div class="organization-card">
+                <div class="org-image">
+                    <img src="g.s foundation.jpg" alt="Annapurna Trust">
+                </div>
+                <div class="org-details">
+                    <h3>g.s foundation</h3>
+                    <p><i class="fas fa-phone"></i> +91 7654321098</p>
+                    <p><i class="fas fa-envelope"></i> childfoundation@gmail.com</p>
+                    <p class="address"><i class="fas fa-map-marker-alt"></i> 23 MVP Colony, Vizag, AP 530017</p>
+                </div>
+            </div>
+            
+            <div class="organization-card">
+                <div class="org-image">
+                    <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Care & Share NGO">
+                </div>
+                <div class="org-details">
+                    <h3>Care & Share NGO</h3>
+                    <p><i class="fas fa-phone"></i> +91 6543210987</p>
+                    <p><i class="fas fa-envelope"></i> careandshare@example.com</p>
+                    <p class="address"><i class="fas fa-map-marker-alt"></i> 56 Dwaraka Nagar, Vizag, AP 530016</p>
+                </div>
+            </div>
+            
+            <div class="organization-card">
+                <div class="org-image">
+                    <img src="https://images.unsplash.com/photo-1541746972996-4e0b0f43e02a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Green Hope Foundation">
+                </div>
+                <div class="org-details">
+                    <h3>Green Hope Foundation</h3>
+                    <p><i class="fas fa-phone"></i> +91 5432109876</p>
+                    <p><i class="fas fa-envelope"></i> greenhope@example.com</p>
+                    <p class="address"><i class="fas fa-map-marker-alt"></i> 34 Gajuwaka, Vizag, AP 530026</p>
+                </div>
+            </div>
+            
+            <div class="organization-card">
+                <div class="org-image">
+                    <img src="https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Helping Hands">
+                </div>
+                <div class="org-details">
+                    <h3>Helping Hands</h3>
+                    <p><i class="fas fa-phone"></i> +91 4321098765</p>
+                    <p><i class="fas fa-envelope"></i> helpinghands@example.com</p>
+                    <p class="address"><i class="fas fa-map-marker-alt"></i> 89 Asilmetta, Vizag, AP 530003</p>
+                </div>
+            </div>
+            
+            <div class="organization-card">
+                <div class="org-image">
+                    <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Ray of Hope">
+                </div>
+                <div class="org-details">
+                    <h3>Ray of Hope</h3>
+                    <p><i class="fas fa-phone"></i> +91 3210987654</p>
+                    <p><i class="fas fa-envelope"></i> rayofhope@example.com</p>
+                    <p class="address"><i class="fas fa-map-marker-alt"></i> 12 Simhachalam, Vizag, AP 530028</p>
+                </div>
+            </div>
+            
+            <div class="organization-card">
+                <div class="org-image">
+                    <img src="https://images.unsplash.com/photo-1522338242992-e1a54906a8da?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Feed the Hungry">
+                </div>
+                <div class="org-details">
+                    <h3>Feed the Hungry</h3>
+                    <p><i class="fas fa-phone"></i> +91 2109876543</p>
+                    <p><i class="fas fa-envelope"></i> feedthehungry@example.com</p>
+                    <p class="address"><i class="fas fa-map-marker-alt"></i> 67 Madhurawada, Vizag, AP 530041</p>
+                </div>
+            </div>
+            
+            <div class="organization-card">
+                <div class="org-image">
+                    <img src="https://images.unsplash.com/photo-1567427017947-545c5f8d16ad?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Share a Meal">
+                </div>
+                <div class="org-details">
+                    <h3>Share a Meal</h3>
+                    <p><i class="fas fa-phone"></i> +91 1098765432</p>
+                    <p><i class="fas fa-envelope"></i> shareameal@example.com</p>
+                    <p class="address"><i class="fas fa-map-marker-alt"></i> 90 Rushikonda, Vizag, AP 530045</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Feedback Page -->
+    <div id="feedback-page" class="page-container">
+        <div class="section-title">
+            <h2>Feedback from Beneficiaries</h2>
+        </div>
+        <div class="organizations-grid">
+            <div class="organization-card">
+                <div class="org-image">
+                    <img src="yuva.jpg" alt="Happy children at Shanti Orphanage">
+                </div>
+                <div class="org-details">
+                    <h3>yuva generation</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Vizag, Andhra Pradesh</p>
+                    <p>"We are extremely grateful for the regular food donations from Food Donate. The children are now getting nutritious meals every day. Thank you for your kindness and support!"</p>
+                </div>
+            </div>
+            
+            <div class="organization-card">
+                <div class="org-image">
+                    <img src="manasu.jpg" alt="Senior citizens at Old Age Home">
+                </div>
+                <div class="org-details">
+                    <h3>manasu orphanage</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Vizag, Andhra Pradesh</p>
+                    <p>"The quality and variety of food we receive through Food Donate has significantly improved the health and happiness of our residents. We deeply appreciate your support."</p>
+                </div>
+            </div>
+            
+            <div class="organization-card">
+                <div class="org-image">
+                    <img src="a.jpg" alt="Community kitchen">
+                </div>
+                <div class="org-details">
+                    <h3>aradhana children home</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Vizag, Andhra Pradesh</p>
+                    <p>"Food Donate has been a blessing for our community kitchen. Their reliable donations allow us to serve hundreds of meals daily to those in need. Thank you!"</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Page -->
+    <div id="about-page" class="page-container">
+        <div class="about-content">
+            <div class="about-text">
+                <h2>About Us</h2>
+                <p>Food Donate is a passionate initiative started by a group of socially conscious individuals from Vizag, committed to addressing the dual challenges of food waste and hunger in our community.</p>
+                <p>Our journey began in 2020 when we witnessed the heartbreaking contrast between mountains of wasted food at events and restaurants, and the empty plates of those struggling to find their next meal. We knew there had to be a better way.</p>
+                <p>Today, we've built a network connecting food donors with organizations serving the hungry. Our technology platform makes it easy for anyone with surplus food to donate, and for organizations to receive the nourishment they desperately need.</p>
+                <p>We believe that access to food is a fundamental human right, and that reducing food waste is one of the most impactful ways we can care for both people and our planet.</p>
+            </div>
+            <div class="about-image">
+                <img src="donate.jpg" alt="Food Donate Team">
+            </div>
+        </div>
+        
+        <div class="mission-section">
+            <h3>Our Mission</h3>
+            <p>To create a sustainable ecosystem that prevents food waste while ensuring that no one in our community goes to bed hungry. We aim to bridge the gap between surplus and need through technology, compassion, and community engagement.</p>
+            <p>Every day, we work towards our vision of a world where food is valued, not wasted, and where everyone has access to nutritious meals.</p>
+        </div>
+        
+        <div class="impact-section">
+            <div class="impact-card">
+                <i class="fas fa-utensils"></i>
+                <h4>1200+</h4>
+                <p>Meals donated daily through our network</p>
+            </div>
+            <div class="impact-card">
+                <i class="fas fa-users"></i>
+                <h4>500+</h4>
+                <p>Active food donors in our community</p>
+            </div>
+            <div class="impact-card">
+                <i class="fas fa-hand-holding-heart"></i>
+                <h4>300+</h4>
+                <p>Organizations we serve across Andhra Pradesh</p>
+            </div>
+            <div class="impact-card">
+                <i class="fas fa-leaf"></i>
+                <h4>5 Tons+</h4>
+                <p>Food waste prevented monthly</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Page -->
+    <div id="contact-page" class="page-container">
+        <div class="section-title">
+            <h2>Contact Us</h2>
+        </div>
+        
+        <div class="contact-container">
+            <div class="contact-info">
+                <h3>Get In Touch</h3>
+                
+                <div class="contact-card">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div>
+                        <h4>Address</h4>
+                        <p>Vignan Institute of Engineering for Women</p>
+                        <p>Kappujagrajjupeta, Visakhapatnam</p>
+                        <p>Andhra Pradesh 530046</p>
+                    </div>
+                </div>
+                
+                <div class="contact-card">
+                    <i class="fas fa-phone"></i>
+                    <div>
+                        <h4>Phone</h4>
+                        <p>+91 9876543210</p>
+                        <p>+91 9123456789</p>
+                    </div>
+                </div>
+                
+                <div class="contact-card">
+                    <i class="fas fa-envelope"></i>
+                    <div>
+                        <h4>Email</h4>
+                        <p>foodforallorg@gmail.com</p>
+                        <p>support@foodforallorg.com</p>
+                    </div>
+                </div>
+                
+                <div class="contact-map">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3804.379944972269!2d83.3169293153434!3d17.54129998800043!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a3417a7e0a1c8b5%3A0x6d8e9e9e9e9e9e9e!2sVignan%20Institute%20of%20Engineering%20for%20Women!5e0!3m2!1sen!2sin!4v1620000000000!5m2!1sen!2sin" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+            </div>
+            
+            <div class="form-card">
+                <h2>Send us a message</h2>
+                <form id="contactForm">
+                    <div class="form-group">
+                        <label for="contact-name">Your Name</label>
+                        <input type="text" id="contact-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contact-email">Your Email</label>
+                        <input type="email" id="contact-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contact-subject">Subject</label>
+                        <input type="text" id="contact-subject" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contact-message">Your Message</label>
+                        <textarea id="contact-message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary">Send Message</button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="team-section">
+            <h3>Our Team</h3>
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="member-image">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="member-info">
+                        <h4>k.deepthi</h4>
+                        <p>student of vignan</p>
+                        <div class="social-links">
+                            <a href="https://www.instagram.com/food_for_all_org?igsh=YWRhanZwN20wNGlk" target="_blank"><i class="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-image">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="member-info">
+                        <h4>ch.reshma</h4>
+                        <p>student of vignan</p>
+                        <div class="social-links">
+                            <a href="https://www.instagram.com/food_for_all_org?igsh=YWRhanZwN20wNGlk" target="_blank"><i class="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-image">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="member-info">
+                        <h4>k.lavanya</h4>
+                        <p>student of vignan</p>
+                        <div class="social-links">
+                            <a href="https://www.instagram.com/food_for_all_org?igsh=YWRhanZwN20wNGlk" target="_blank"><i class="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-image">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="member-info">
+                        <h4>k.gowri</h4>
+                        <p>student of vignan</p>
+                        <div class="social-links">
+                            <a href="https://www.instagram.com/food_for_all_org?igsh=YWRhanZwN20wNGlk" target="_blank"><i class="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>About Food Donate</h3>
+                <p>Food Donate is a platform dedicated to reducing food waste and fighting hunger by connecting food donors with organizations that serve the needy.</p>
+                <div class="footer-social">
+                    <a href="https://www.instagram.com/food_for_all_org?igsh=YWRhanZwN20wNGlk" target="_blank"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#" onclick="showPage('home-page')"><i class="fas fa-chevron-right"></i> Home</a></li>
+                    <li><a href="#" onclick="showPage('organizations-page')"><i class="fas fa-chevron-right"></i> Organizations</a></li>
+                    <li><a href="#" onclick="showPage('about-page')"><i class="fas fa-chevron-right"></i> About Us</a></li>
+                    <li><a href="#" onclick="showPage('contact-page')"><i class="fas fa-chevron-right"></i> Contact</a></li>
+                    <li><a href="#" onclick="showPage('donate-page')"><i class="fas fa-chevron-right"></i> Donate Food</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Contact Info</h3>
+                <p><i class="fas fa-map-marker-alt"></i> Vignan Institute of Engineering for Women, Visakhapatnam, AP 530046</p>
+                <p><i class="fas fa-phone"></i> +91 9876543210</p>
+                <p><i class="fas fa-envelope"></i> foodforallorg@gmail.com</p>
+                <p><i class="fas fa-clock"></i> Mon-Sat: 9:00 AM - 6:00 PM</p>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            <p>&copy; 2023 Food Donate. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Store all registered users
+        let users = JSON.parse(localStorage.getItem('users')) || [];
+        let currentUser = null;
+
+        // Always show login page on initial load
+        function initializeApp() {
+            showPage('login-page');
+            updateNavVisibility(false);
+        }
+
+        // Page Navigation
+        function showPage(pageId) {
+            document.querySelectorAll('.page-container').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Prefill email in forms if logged in
+            if (pageId === 'donate-page' && currentUser) {
+                document.getElementById('donor-email').value = currentUser.email;
+            }
+            
+            if (pageId === 'request-page' && currentUser) {
+                document.getElementById('org-email').value = currentUser.email;
+            }
+            
+            document.getElementById(pageId).classList.add('active');
+            
+            // Close mobile menu if open
+            document.querySelector('.nav-links').classList.remove('active');
+        }
+
+        // Toggle navigation links visibility based on login status
+        function updateNavVisibility(isLoggedIn) {
+            const navLinks = document.querySelectorAll('.nav-links li:not(:last-child)');
+            navLinks.forEach(link => {
+                link.style.display = isLoggedIn ? 'block' : 'none';
+            });
+            document.getElementById('login-btn').style.display = isLoggedIn ? 'none' : 'block';
+            document.getElementById('logout-btn').style.display = isLoggedIn ? 'block' : 'none';
+        }
+
+        // Mobile Menu Toggle
+        function toggleMenu() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        }
+
+        // Form Validation
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        // Show message function
+        function showMessage(message, isSuccess) {
+            const messageContainer = document.getElementById('message-container');
+            messageContainer.textContent = message;
+            messageContainer.className = isSuccess ? 'message success' : 'message error';
+            messageContainer.style.display = 'block';
+            
+            // Hide message after 5 seconds
+            setTimeout(() => {
+                messageContainer.style.display = 'none';
+            }, 5000);
+        }
+
+        // Login Form
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            if (!email || !password) {
+                showMessage('Please fill in all fields', false);
+                return;
+            }
+
+            if (!validateEmail(email)) {
+                showMessage('Please enter a valid email address', false);
+                return;
+            }
+
+            if (password.length !== 6) {
+                showMessage('Password must be exactly 6 characters', false);
+                return;
+            }
+
+            // Check if credentials match stored credentials
+            const user = users.find(u => u.email === email && u.password === password);
+            if (user) {
+                // Successful login - show home page and update nav
+                currentUser = user;
+                showPage('home-page');
+                updateNavVisibility(true);
+                showMessage('Login successful! Welcome back, ' + user.username, true);
+            } else {
+                showMessage('Invalid email or password', false);
+            }
+        });
+
+        // Signup Form
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('signup-username').value;
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+
+            if (!username || !email || !password) {
+                showMessage('Please fill in all fields', false);
+                return;
+            }
+
+            if (!/^[A-Za-z ]+$/.test(username)) {
+                showMessage('Username should contain only letters and spaces', false);
+                return;
+            }
+
+            if (!validateEmail(email)) {
+                showMessage('Please enter a valid email address', false);
+                return;
+            }
+
+            if (password.length !== 6) {
+                showMessage('Password must be exactly 6 characters', false);
+                return;
+            }
+
+            // Check if email is already registered
+            if (users.some(u => u.email === email)) {
+                showMessage('This email is already registered. Please login instead.', false);
+                return;
+            }
+
+            // Create new user
+            const newUser = {
+                username: username,
+                email: email,
+                password: password
+            };
+            
+            // Add to users array
+            users.push(newUser);
+            localStorage.setItem('users', JSON.stringify(users));
+            
+            // Show success message and redirect to login page
+            showMessage('Registration successful! Please login with your credentials.', true);
+            this.reset();
+            showPage('login-page');
+        });
+
+        // Logout function
+        function logout() {
+            currentUser = null;
+            showPage('login-page');
+            updateNavVisibility(false);
+            showMessage('You have been logged out successfully.', true);
+        }
+
+        // Contact Form
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            showMessage('Thank you for your message! We will get back to you soon.', true);
+            this.reset();
+        });
+
+        // Donation Form
+        document.getElementById('donationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Validate donor name
+            const donorName = document.getElementById('donor-name').value;
+            if (!/^[A-Za-z ]+$/.test(donorName)) {
+                showMessage('Please enter a valid name (only letters and spaces)', false);
+                return;
+            }
+            
+            // Validate phone number
+            const phone = document.getElementById('donor-phone').value;
+            if (phone.length !== 10 || !/^\d+$/.test(phone)) {
+                showMessage('Please enter a valid 10-digit phone number', false);
+                return;
+            }
+            
+            // Validate email matches registered email
+            const email = document.getElementById('donor-email').value;
+            if (email !== currentUser.email) {
+                showMessage('Please use your registered email address', false);
+                return;
+            }
+            
+            showMessage('Thank you for your donation! We will contact you shortly.', true);
+            this.reset();
+            showPage('home-page');
+        });
+        
+        // Request Form
+        document.getElementById('requestForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Validate organization name
+            const orgName = document.getElementById('org-name').value;
+            if (!/^[A-Za-z ]+$/.test(orgName)) {
+                showMessage('Please enter a valid organization name (letters and spaces only)', false);
+                return;
+            }
+            
+            // Validate contact person name
+            const contactPerson = document.getElementById('contact-person').value;
+            if (!/^[A-Za-z ]+$/.test(contactPerson)) {
+                showMessage('Please enter a valid contact person name (only letters and spaces)', false);
+                return;
+            }
+            
+            // Validate phone number
+            const phone = document.getElementById('org-phone').value;
+            if (phone.length !== 10 || !/^\d+$/.test(phone)) {
+                showMessage('Please enter a valid 10-digit phone number', false);
+                return;
+            }
+            
+            // Validate email matches registered email
+            const email = document.getElementById('org-email').value;
+            if (email !== currentUser.email) {
+                showMessage('Please use your registered email address', false);
+                return;
+            }
+            
+            showMessage('Thank you for registering! We will contact you shortly.', true);
+            this.reset();
+            showPage('home-page');
+        });
+
+        function selectFoodType(element, type) {
+            // Remove selected class from all options
+            document.querySelectorAll('.food-type-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked option
+            element.classList.add('selected');
+            document.getElementById('food-type').value = type;
+        }
+
+        // Initialize the app
+        initializeApp();
+    </script>
+</body>
+</html>
